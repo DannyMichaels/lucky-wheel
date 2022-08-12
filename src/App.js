@@ -1,9 +1,9 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { animated, useSpring } from "react-spring";
-import { ReactComponent as Logo } from "./delete.svg";
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSpring } from 'react-spring';
+import { ReactComponent as Logo } from './delete.svg';
 import PressButton from './components/PressButton';
 import Wheel from './components/Wheel';
-import "./App.css";
+import './App.css';
 
 const map = function (value, in_min, in_max, out_min, out_max) {
   //console.log(value);
@@ -17,31 +17,31 @@ const map = function (value, in_min, in_max, out_min, out_max) {
 };
 
 function App() {
-
   const [list, setList] = useState([]);
   //console.log(list);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [power, setPower] = useState(0);
   const [acc, setAcc] = useState(0);
   const config = { mass: 50, tension: 200, friction: 200, precision: 0.001 };
   const [props, set] = useSpring(() => ({
-    transform: "rotate(0deg)",
+    transform: 'rotate(0deg)',
     immediate: false,
   }));
-  const addItem = () => {
-    setList([...list, name]);
-    setName("");
-  };
+
+  const addItem = useCallback(() => {
+    setList((prevState) => [...prevState, name]);
+    setName('');
+  }, [name]);
 
   const deleteItem = (e) => {
     const { item } = e.currentTarget.dataset;
     setList(list.filter((e) => e !== item));
   };
 
-  const reset=()=>{
-    setList([])
-    setName('')
-  }
+  const reset = () => {
+    setList([]);
+    setName('');
+  };
 
   useEffect(() => {
     set({
@@ -51,23 +51,44 @@ function App() {
       config,
     });
     setAcc(acc + power);
+
+    // eslint-disable-next-line
   }, [power]);
 
   return (
-    <div style={{ overflowX: "hidden" }}>
+    <div style={{ overflowX: 'hidden' }}>
       <Wheel list={list} springProps={props} />
-      {list.length ?  <PressButton setPower={setPower} disabled={!list.length} style={{ height: "20vh" }} /> : null}
-      <div style={{ /* marginTop: "20vh" ,*/ marginBottom: "5vh" }}>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-        <button className="button" onClick={addItem}>Add</button>
-        <button className="button" onClick={reset}>reset</button>
-        {list.map(n => (
+      {list.length ? (
+        <PressButton
+          setPower={setPower}
+          disabled={!list.length}
+          style={{ height: '20vh' }}
+        />
+      ) : null}
+      <div style={{ marginTop: '20px', marginBottom: '5vh' }}>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <button className="small-button" onClick={addItem}>
+          Add
+        </button>
+        <button className="small-button" onClick={reset}>
+          reset
+        </button>
+        {list.map((n) => (
           <div key={n} className="item">
             {n}
             <Logo
               data-item={n}
               fill="#a3aab8"
-              style={{ height: "1em", width:'auto', verticalAlign: "sub", marginLeft: "5px" }}
+              style={{
+                height: '1em',
+                width: 'auto',
+                verticalAlign: 'sub',
+                marginLeft: '5px',
+              }}
               onClick={deleteItem}
             />
           </div>
@@ -75,6 +96,6 @@ function App() {
       </div>
     </div>
   );
-};
+}
 
 export default App;

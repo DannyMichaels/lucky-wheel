@@ -12,7 +12,7 @@ body {
   user-select: none;
 }
 
-.main {
+.button {
   position: relative;
   width: 200px;
   height: 50px;
@@ -23,14 +23,14 @@ body {
   overflow: hidden;
 }
 
-.fill {
+.button__fill {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
 }
 
-.content {
+.button__content {
   position: absolute;
   top: 0;
   left: 0;
@@ -42,12 +42,12 @@ body {
   color: white;
 }
 
-button{
-  outline:none; 
+button {
+  outline: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-input[type=text] {
+input[type='text'] {
   height: 2rem;
   padding: 2px 6px;
   margin: 8px 8px;
@@ -57,12 +57,12 @@ input[type=text] {
   box-sizing: border-box;
 }
 
-.item{
+.item {
   font-size: 2rem;
   color: #6c778d;
 }
 
-.button{
+.small-button {
   margin: auto 5px;
   height: 2rem;
   border: 1px solid #a3aab8;
